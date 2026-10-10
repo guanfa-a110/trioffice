@@ -1,0 +1,57 @@
+name: 🐞 缺陷报告 / Bug report
+description: 报告一个可以复现的问题
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈！请尽量把复现步骤写清楚，能让问题定位快很多。
+  - type: dropdown
+    id: app
+    attributes:
+      label: 出问题的是哪个应用？
+      options:
+        - 工作台 / 首页
+        - Writer 文档
+        - Sheet 表格
+        - Deck 演示
+        - 构建 / 测试脚本
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 打开表格，在 A1 输入 …
+        2. …
+        3. 结果得到 …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望结果
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果（有报错请贴控制台输出）
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 版本 / 运行方式
+      placeholder: 例如 v0.1.0 · npm start · Chrome 130 · macOS 15
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: 其他信息
+      description: 截图、示例 `.trio` 文件（请先删掉隐私内容）
+    validations:
+      required: false
