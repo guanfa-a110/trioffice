@@ -178,7 +178,18 @@ async function publishViaApi(args, history, token) {
     { allowFailure: true },
   );
   if (created.status === 201) console.log(`  ✔ 已创建仓库 ${repoSlug}`);
-  else if (created.status === 422) console.log('  · 仓库已存在，继续推送提交');
+  else if (created.status === 422) {
+    console.log('  · 仓库已存在，继续推送提交');
+    // 仓库是手工建的（描述/主页可能没填）→ 统一覆盖成我们想要的
+    await client.request('PATCH', `/repos/${repoSlug}`, {
+      description: args.description || DEFAULT_DESCRIPTION,
+      homepage: `https://github.com/${repoSlug}`,
+      has_issues: true,
+      has_wiki: false,
+      has_projects: false,
+    }, { allowFailure: true });
+    console.log('  ✔ 已更新仓库描述与主页');
+  }
   else if (created.status === 404 && isOrg) throw new Error(`组织 ${args.owner} 不存在，或令牌没有创建仓库的权限`);
   else if (created.status >= 400) throw new Error(`创建仓库失败：${created.status} ${JSON.stringify(created.data).slice(0, 200)}`);
   else console.log(`  · 创建仓库返回 ${created.status}`);
