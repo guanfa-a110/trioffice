@@ -26,7 +26,7 @@ const API = 'https://api.github.com';
  * 参数
  * ------------------------------------------------------------------ */
 function parseArgs(argv) {
-  const args = { repo: 'trioffice', owner: '', private: false, dryRun: false, description: '', homepage: '' };
+  const args = { repo: 'trioffice', owner: '', private: false, dryRun: false, description: '', homepage: '', skipWorkflow: false };
   for (let i = 0; i < argv.length; i += 1) {
     const token = argv[i];
     if (token === '--owner') args.owner = argv[++i] || '';
@@ -34,6 +34,7 @@ function parseArgs(argv) {
     else if (token === '--description') args.description = argv[++i] || '';
     else if (token === '--private') args.private = true;
     else if (token === '--dry-run') args.dryRun = true;
+    else if (token === '--skip-workflow') args.skipWorkflow = true;
     else if (token === '--help' || token === '-h') args.help = true;
   }
   return args;
@@ -155,6 +156,7 @@ async function publishViaGh(args, history) {
 async function publishViaApi(args, history, token) {
   const client = createClient(token);
   const repoSlug = `${args.owner}/${args.repo}`;
+  const branch = 'main';
 
   const me = await client.request('GET', '/user');
   const login = me.data.login;
@@ -205,14 +207,42 @@ async function publishViaApi(args, history, token) {
   }
   else console.log(`  · 创建仓库返回 ${created.status}`);
 
-  // 2. 逐个提交重建（保留完整历史与提交信息）
+  // 2. 空仓库需要先「激活」：
+  //    GitHub 的 Git Data API 在完全没有提交的仓库上会返回 409 Git Repository is empty，
+  //    所以先用 Contents API 放一个临时提交，把 git 数据库初始化出来。
+  //    它不会进入最终历史 —— 下面的第一个提交是 root commit（parents 为空），
+  //    完成后我们会把 main 强制指向它，临时提交随即变成不可达对象。
+  const probe = await client.request('GET', `/repos/${repoSlug}/commits?per_page=1`, null, { allowFailure: true });
+  const isEmpty = probe.status === 409 || (Array.isArray(probe.data) && probe.data.length === 0);
+  if (isEmpty) {
+    console.log('  · 仓库是空的，先放一个临时提交激活 Git 数据（稍后会被历史覆盖）');
+    const seeded = await client.request('PUT', `/repos/${repoSlug}/contents/.trioffice-init`, {
+      message: 'chore: 初始化仓库（TriOffice 发布脚本的临时提交）',
+      content: Buffer.from('TriOffice publish helper — this commit is replaced right after publishing.\n').toString('base64'),
+      branch,
+    });
+    if (seeded.status >= 400) throw new Error(`激活空仓库失败：${seeded.status} ${JSON.stringify(seeded.data).slice(0, 200)}`);
+    console.log('  ✔ 已激活');
+  }
+
+  // 3. 逐个提交重建（保留完整历史与提交信息）
   let parent = null;
   const blobCache = new Map();
+  const skipped = [];
+  const WORKFLOW_PATH = /^\.github\/workflows\//;
+
+  if (args.skipWorkflow) {
+    console.log('  · --skip-workflow：本次跳过 .github/workflows/ 下的文件（GitHub 需要 workflow 作用域）');
+  }
 
   for (const commit of history) {
     const entries = await listTree(commit.sha);
     const treeItems = [];
     for (const entry of entries) {
+      if (args.skipWorkflow && WORKFLOW_PATH.test(entry.path)) {
+        if (!skipped.includes(entry.path)) skipped.push(entry.path);
+        continue;
+      }
       const cacheKey = entry.object;
       let sha = blobCache.get(cacheKey);
       if (!sha) {
@@ -236,23 +266,47 @@ async function publishViaApi(args, history, token) {
       committer: { name: commit.committer.name, email: commit.committer.email, date: commit.committer.date },
     });
     parent = created2.data.sha;
-    console.log(`  ✔ ${commit.sha.slice(0, 7)} → ${parent.slice(0, 7)}  ${commit.message.split('\n')[0]}`);
+    console.log(`  ✔ ${commit.sha.slice(0, 7)} → ${parent.slice(0, 7)}  ${commit.message.split('\n')[0]}${treeItems.length < entries.length ? `  (跳过 ${entries.length - treeItems.length} 个文件)` : ''}`);
   }
 
-  // 3. 建立分支引用（已存在则强制更新）
-  const ref = await client.request('GET', `/repos/${repoSlug}/git/ref/heads/main`, null, { allowFailure: true });
+  // 4. 建立分支引用（已存在则强制更新，把临时提交甩掉）
+  const ref = await client.request('GET', `/repos/${repoSlug}/git/ref/heads/${branch}`, null, { allowFailure: true });
   if (ref.status === 200) {
-    await client.request('PATCH', `/repos/${repoSlug}/git/refs/heads/main`, { sha: parent, force: true });
-    console.log('  ✔ 已更新 main 分支');
+    await client.request('PATCH', `/repos/${repoSlug}/git/refs/heads/${branch}`, { sha: parent, force: true });
+    console.log(`  ✔ 已更新 ${branch} 分支`);
   } else {
-    await client.request('POST', `/repos/${repoSlug}/git/refs`, { ref: 'refs/heads/main', sha: parent });
-    console.log('  ✔ 已创建 main 分支');
+    await client.request('POST', `/repos/${repoSlug}/git/refs`, { ref: `refs/heads/${branch}`, sha: parent });
+    console.log(`  ✔ 已创建 ${branch} 分支`);
   }
 
-  // 4. 主题标签（失败不影响发布）
-  await client.request('PUT', `/repos/${repoSlug}/topics`, { names: TOPICS }, { allowFailure: true });
+  // 5. 确保默认分支就是 main，并清掉激活用的其它分支
+  const info = await client.request('GET', `/repos/${repoSlug}`);
+  const currentDefault = info.data.default_branch;
+  if (currentDefault !== branch) {
+    const switched = await client.request('PATCH', `/repos/${repoSlug}`, { default_branch: branch }, { allowFailure: true });
+    if (switched.status < 400) {
+      console.log(`  ✔ 默认分支已从 ${currentDefault} 切到 ${branch}`);
+      await client.request('DELETE', `/repos/${repoSlug}/git/refs/heads/${currentDefault}`, null, { allowFailure: true });
+      console.log(`  ✔ 已清理临时分支 ${currentDefault}`);
+    } else {
+      console.log(`  · 默认分支仍是 ${currentDefault}（切换需要 admin 权限），可稍后在设置里手动改`);
+    }
+  }
 
-  return `https://github.com/${repoSlug}`;
+  // 6. 主题标签（失败不影响发布）
+  const topics = await client.request('PUT', `/repos/${repoSlug}/topics`, { names: TOPICS }, { allowFailure: true });
+  if (topics.status < 400) console.log(`  ✔ 已设置 ${TOPICS.length} 个主题标签`);
+  else console.log('  · 主题标签未能设置（需要 push 权限）');
+
+  if (skipped.length) {
+    console.log('');
+    console.log(`  ⚠ 以下文件因缺少 workflow 作用域被跳过（共 ${skipped.length} 个）：`);
+    for (const path of skipped) console.log(`      ${path}`);
+    console.log('    补救：给令牌勾上 workflow 作用域后重跑本脚本（会强制更新 main，历史保持不变）');
+    console.log('         或者直接在网页上新建这个文件（Actions 标签会自动识别）');
+  }
+
+  return `https://github.com/${repoSlug}#${parent}`;
 }
 
 /* ------------------------------------------------------------------ *
@@ -270,6 +324,8 @@ async function main() {
   --description <text>   仓库描述
   --private              创建私有仓库（默认公开）
   --dry-run              只打印将要上传的内容，不联网
+  --skip-workflow        跳过 .github/workflows/（令牌没有 workflow 作用域时用；
+                         推送完成后可在网页上补该文件，或给令牌补上 workflow 作用域后重跑）
 `);
     return;
   }
@@ -321,7 +377,16 @@ async function main() {
   }
 
   console.log('');
-  console.log(`✔ 发布完成：${url}`);
+  console.log(`✔ 发布完成：${url.split('#')[0]}`);
+  const remoteHead = url.split('#')[1];
+  if (remoteHead) {
+    const localHead = (await git('rev-parse', 'HEAD')).trim();
+    console.log(`  远端 main = ${remoteHead}`);
+    console.log(`  本地 HEAD = ${localHead}`);
+    console.log(remoteHead === localHead
+      ? '  远端与本地完全一致（逐字节重建成功，你本地 git 可直接 fetch 对齐）'
+      : '  提示：远端提交号与本地不一致（内容相同但元数据不同），本地推送时用 --force 对齐即可');
+  }
   console.log('  下一步：到仓库 Settings → Pages 或 Actions 检查 CI 是否通过；');
   console.log(`  徽章已在 README 里引用，等 CI 跑完即可显示。`);
 }
