@@ -1,0 +1,20 @@
+{
+  "format": "trio/1",
+  "app": "TriOffice",
+  "version": "0.1.0",
+  "type": "doc",
+  "title": "会议纪要（示例）",
+  "createdAt": 1791609135264,
+  "updatedAt": 1791609135264,
+  "stats": {
+    "words": 0,
+    "cells": 0,
+    "slides": 0
+  },
+  "data": {
+    "html": "<h1>会议纪要</h1>\n<p><strong>会议主题：</strong><br>\n\n<strong>时间：</strong> 2026/10/10<br>\n\n<strong>参会人：</strong><br>\n\n<strong>记录人：</strong></p>\n<h2>一、议题</h2>\n<ol><li></li><li></li></ol>\n<h2>二、讨论要点</h2>\n<ul><li></li><li></li></ul>\n<h2>三、结论与决策</h2>\n<table><thead><tr><th>事项</th><th>结论</th><th>负责人</th><th>截止日期</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td></tr></tbody></table>\n<h2>四、待办事项</h2>\n<ul><li class=\"task\" data-checked=\"false\"><input type=\"checkbox\" disabled> </li><li class=\"task\" data-checked=\"false\"><input type=\"checkbox\" disabled> </li></ul>\n<blockquote><p>下次会议安排：</p></blockquote>",
+    "footer": "",
+    "pageSize": "a4",
+    "orientation": "portrait"
+  }
+}

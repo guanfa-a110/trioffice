@@ -1,0 +1,269 @@
+{
+  "format": "trio/1",
+  "app": "TriOffice",
+  "version": "0.1.0",
+  "type": "deck",
+  "title": "项目汇报（示例）",
+  "createdAt": 1791609135275,
+  "updatedAt": 1791609135275,
+  "stats": {
+    "words": 0,
+    "cells": 0,
+    "slides": 0
+  },
+  "data": {
+    "theme": "aurora",
+    "canvas": {
+      "w": 1280,
+      "h": 720
+    },
+    "slides": [
+      {
+        "id": "smv1xtk8b6ge",
+        "layout": "titleBody",
+        "elements": [
+          {
+            "id": "emv1xtk8bf76",
+            "type": "heading",
+            "x": 115.19999999999999,
+            "y": 86.39999999999999,
+            "w": 1049.6,
+            "h": 115.2,
+            "opacity": 1,
+            "text": "项目汇报",
+            "fontSize": 52,
+            "color": "#f2f6ff",
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "lineHeight": 1.2,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          }
+        ],
+        "transition": "fade",
+        "notes": "",
+        "background": null
+      },
+      {
+        "id": "smv1xtk8bd6z",
+        "layout": "titleBody",
+        "elements": [
+          {
+            "id": "emv1xtk8bj7q",
+            "type": "heading",
+            "x": 115.19999999999999,
+            "y": 86.39999999999999,
+            "w": 1049.6,
+            "h": 115.2,
+            "opacity": 1,
+            "text": "项目背景与目标",
+            "fontSize": 52,
+            "color": "#f2f6ff",
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "lineHeight": 1.2,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          },
+          {
+            "id": "emv1xtk8blq3",
+            "type": "text",
+            "x": 115.19999999999999,
+            "y": 244.8,
+            "w": 1049.6,
+            "h": 360,
+            "opacity": 1,
+            "text": "· 解决什么问题\n· 目标用户与场景\n· 成功的衡量指标",
+            "fontSize": 28,
+            "color": "rgba(233,240,255,0.66)",
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "lineHeight": 1.6,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          }
+        ],
+        "transition": "fade",
+        "notes": "",
+        "background": null
+      },
+      {
+        "id": "smv1xtk8bdg7",
+        "layout": "titleBody",
+        "elements": [
+          {
+            "id": "emv1xtk8bk02",
+            "type": "heading",
+            "x": 115.19999999999999,
+            "y": 86.39999999999999,
+            "w": 1049.6,
+            "h": 115.2,
+            "opacity": 1,
+            "text": "当前进展",
+            "fontSize": 52,
+            "color": "#f2f6ff",
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "lineHeight": 1.2,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          },
+          {
+            "id": "emv1xtk8b6aa",
+            "type": "text",
+            "x": 115.19999999999999,
+            "y": 244.8,
+            "w": 1049.6,
+            "h": 360,
+            "opacity": 1,
+            "text": "· 里程碑 1：已完成\n· 里程碑 2：进行中（70%）\n· 里程碑 3：待启动",
+            "fontSize": 28,
+            "color": "rgba(233,240,255,0.66)",
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "lineHeight": 1.6,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          }
+        ],
+        "transition": "fade",
+        "notes": "",
+        "background": null
+      },
+      {
+        "id": "smv1xtk8bs7g",
+        "layout": "titleBody",
+        "elements": [
+          {
+            "id": "emv1xtk8bg54",
+            "type": "heading",
+            "x": 115.19999999999999,
+            "y": 86.39999999999999,
+            "w": 1049.6,
+            "h": 115.2,
+            "opacity": 1,
+            "text": "关键数据",
+            "fontSize": 52,
+            "color": "#f2f6ff",
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "lineHeight": 1.2,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          },
+          {
+            "id": "emv1xtk8bjbv",
+            "type": "text",
+            "x": 115.19999999999999,
+            "y": 244.8,
+            "w": 1049.6,
+            "h": 360,
+            "opacity": 1,
+            "text": "· 活跃用户：\n· 转化率：\n· 平均响应时间：",
+            "fontSize": 28,
+            "color": "rgba(233,240,255,0.66)",
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "lineHeight": 1.6,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          }
+        ],
+        "transition": "fade",
+        "notes": "",
+        "background": null
+      },
+      {
+        "id": "smv1xtk8bmhr",
+        "layout": "titleBody",
+        "elements": [
+          {
+            "id": "emv1xtk8b0qa",
+            "type": "heading",
+            "x": 115.19999999999999,
+            "y": 86.39999999999999,
+            "w": 1049.6,
+            "h": 115.2,
+            "opacity": 1,
+            "text": "风险与应对",
+            "fontSize": 52,
+            "color": "#f2f6ff",
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "lineHeight": 1.2,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          },
+          {
+            "id": "emv1xtk8bh39",
+            "type": "text",
+            "x": 115.19999999999999,
+            "y": 244.8,
+            "w": 1049.6,
+            "h": 360,
+            "opacity": 1,
+            "text": "· 资源不足 → 提前排期\n· 技术难点 → 预研验证",
+            "fontSize": 28,
+            "color": "rgba(233,240,255,0.66)",
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "lineHeight": 1.6,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          }
+        ],
+        "transition": "fade",
+        "notes": "",
+        "background": null
+      },
+      {
+        "id": "smv1xtk8bc6s",
+        "layout": "titleBody",
+        "elements": [
+          {
+            "id": "emv1xtk8b3d8",
+            "type": "heading",
+            "x": 115.19999999999999,
+            "y": 86.39999999999999,
+            "w": 1049.6,
+            "h": 115.2,
+            "opacity": 1,
+            "text": "下一步计划",
+            "fontSize": 52,
+            "color": "#f2f6ff",
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "lineHeight": 1.2,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          },
+          {
+            "id": "emv1xtk8bsjp",
+            "type": "text",
+            "x": 115.19999999999999,
+            "y": 244.8,
+            "w": 1049.6,
+            "h": 360,
+            "opacity": 1,
+            "text": "· 本周：完成核心链路联调\n· 下周：灰度发布 10% 流量\n· 月底：全量发布",
+            "fontSize": 28,
+            "color": "rgba(233,240,255,0.66)",
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "lineHeight": 1.6,
+            "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif"
+          }
+        ],
+        "transition": "fade",
+        "notes": "",
+        "background": null
+      }
+    ]
+  }
+}

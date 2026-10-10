@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>项目汇报</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#0c0f14;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif}
+  body{display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .stage{position:relative;width:min(100vw,177.78vh);height:min(56.25vw,100vh);background:#101a2e;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+  .deck-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .35s ease,transform .35s ease}
+  .deck-slide.is-active{opacity:1;visibility:visible;transform:none}
+  .deck-slide[data-transition="slide"].is-active{animation:slideIn .4s ease}
+  .deck-slide[data-transition="zoom"].is-active{animation:zoomIn .38s ease}
+  .deck-slide[data-transition="none"]{transition:none}
+  @keyframes slideIn{from{transform:translateX(6%)}to{transform:none}}
+  @keyframes zoomIn{from{transform:scale(.94)}to{transform:none}}
+  .deck-notes{position:absolute;left:0;right:0;bottom:0;padding:10px 16px;background:rgba(0,0,0,.66);color:#fff;font:400 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif}
+  .hint{position:fixed;bottom:12px;right:16px;color:rgba(255,255,255,.5);font:400 12px/1.4 sans-serif}
+  .bar{position:fixed;top:0;left:0;height:2px;background:#63e6ff;transition:width .3s ease}
+</style>
+</head>
+<body>
+<div class="stage">
+
+<section class="deck-slide" data-index="0" data-transition="fade">
+  <div class="slide" style="position:relative;width:100%;height:100%;background:linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0b3b52 100%);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;color:#f2f6ff"><div style="position:absolute;left:9.0000%;top:12.0000%;width:82.0000%;height:16.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:7.2222%;line-height:1.2;color:#f2f6ff;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:700;font-style:normal;text-align:left;white-space:pre-wrap">项目汇报</div></div>
+  
+</section>
+
+<section class="deck-slide" data-index="1" data-transition="fade">
+  <div class="slide" style="position:relative;width:100%;height:100%;background:linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0b3b52 100%);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;color:#f2f6ff"><div style="position:absolute;left:9.0000%;top:12.0000%;width:82.0000%;height:16.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:7.2222%;line-height:1.2;color:#f2f6ff;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:700;font-style:normal;text-align:left;white-space:pre-wrap">项目背景与目标</div><div style="position:absolute;left:9.0000%;top:34.0000%;width:82.0000%;height:50.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:3.8889%;line-height:1.6;color:rgba(233,240,255,0.66);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:400;font-style:normal;text-align:left;white-space:pre-wrap">· 解决什么问题
+· 目标用户与场景
+· 成功的衡量指标</div></div>
+  
+</section>
+
+<section class="deck-slide" data-index="2" data-transition="fade">
+  <div class="slide" style="position:relative;width:100%;height:100%;background:linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0b3b52 100%);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;color:#f2f6ff"><div style="position:absolute;left:9.0000%;top:12.0000%;width:82.0000%;height:16.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:7.2222%;line-height:1.2;color:#f2f6ff;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:700;font-style:normal;text-align:left;white-space:pre-wrap">当前进展</div><div style="position:absolute;left:9.0000%;top:34.0000%;width:82.0000%;height:50.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:3.8889%;line-height:1.6;color:rgba(233,240,255,0.66);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:400;font-style:normal;text-align:left;white-space:pre-wrap">· 里程碑 1：已完成
+· 里程碑 2：进行中（70%）
+· 里程碑 3：待启动</div></div>
+  
+</section>
+
+<section class="deck-slide" data-index="3" data-transition="fade">
+  <div class="slide" style="position:relative;width:100%;height:100%;background:linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0b3b52 100%);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;color:#f2f6ff"><div style="position:absolute;left:9.0000%;top:12.0000%;width:82.0000%;height:16.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:7.2222%;line-height:1.2;color:#f2f6ff;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:700;font-style:normal;text-align:left;white-space:pre-wrap">关键数据</div><div style="position:absolute;left:9.0000%;top:34.0000%;width:82.0000%;height:50.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:3.8889%;line-height:1.6;color:rgba(233,240,255,0.66);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:400;font-style:normal;text-align:left;white-space:pre-wrap">· 活跃用户：
+· 转化率：
+· 平均响应时间：</div></div>
+  
+</section>
+
+<section class="deck-slide" data-index="4" data-transition="fade">
+  <div class="slide" style="position:relative;width:100%;height:100%;background:linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0b3b52 100%);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;color:#f2f6ff"><div style="position:absolute;left:9.0000%;top:12.0000%;width:82.0000%;height:16.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:7.2222%;line-height:1.2;color:#f2f6ff;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:700;font-style:normal;text-align:left;white-space:pre-wrap">风险与应对</div><div style="position:absolute;left:9.0000%;top:34.0000%;width:82.0000%;height:50.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:3.8889%;line-height:1.6;color:rgba(233,240,255,0.66);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:400;font-style:normal;text-align:left;white-space:pre-wrap">· 资源不足 → 提前排期
+· 技术难点 → 预研验证</div></div>
+  
+</section>
+
+<section class="deck-slide" data-index="5" data-transition="fade">
+  <div class="slide" style="position:relative;width:100%;height:100%;background:linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0b3b52 100%);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;color:#f2f6ff"><div style="position:absolute;left:9.0000%;top:12.0000%;width:82.0000%;height:16.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:7.2222%;line-height:1.2;color:#f2f6ff;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:700;font-style:normal;text-align:left;white-space:pre-wrap">下一步计划</div><div style="position:absolute;left:9.0000%;top:34.0000%;width:82.0000%;height:50.0000%;opacity:1;display:flex;flex-direction:column;justify-content:flex-start;font-size:3.8889%;line-height:1.6;color:rgba(233,240,255,0.66);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;font-weight:400;font-style:normal;text-align:left;white-space:pre-wrap">· 本周：完成核心链路联调
+· 下周：灰度发布 10% 流量
+· 月底：全量发布</div></div>
+  
+</section>
+</div>
+<div class="bar" id="bar" style="width:0"></div>
+<div class="hint">← → 翻页 · F 全屏 · Esc 退出</div>
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.deck-slide'));
+  var index = 0;
+  var bar = document.getElementById('bar');
+  function show(next) {
+    index = Math.max(0, Math.min(slides.length - 1, next));
+    slides.forEach(function (slide, i) { slide.classList.toggle('is-active', i === index); });
+    bar.style.width = ((index + 1) / slides.length * 100) + '%';
+  }
+  function next() { show(index + 1); }
+  function prev() { show(index - 1); }
+  document.addEventListener('keydown', function (event) {
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].indexOf(event.key) !== -1) { event.preventDefault(); next(); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp'].indexOf(event.key) !== -1) { event.preventDefault(); prev(); }
+    else if (event.key === 'Home') show(0);
+    else if (event.key === 'End') show(slides.length - 1);
+    else if (event.key.toLowerCase() === 'f') {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+    }
+  });
+  document.addEventListener('click', function (event) { if (event.target.closest('.deck-notes')) return; next(); });
+  show(0);
+  
+})();
+</script>
+</body>
+</html>
