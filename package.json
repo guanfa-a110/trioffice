@@ -40,10 +40,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OWNER/trioffice.git"
+    "url": "git+https://github.com/guanfa-a110/trioffice.git"
   },
   "bugs": {
-    "url": "https://github.com/OWNER/trioffice/issues"
+    "url": "https://github.com/guanfa-a110/trioffice/issues"
   },
-  "homepage": "https://github.com/OWNER/trioffice#readme"
+  "homepage": "https://github.com/guanfa-a110/trioffice#readme"
 }

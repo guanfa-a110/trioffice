@@ -6,6 +6,9 @@
 
 **A dependency-free, browser-native open-source office suite**
 
+[![CI](https://github.com/guanfa-a110/trioffice/actions/workflows/ci.yml/badge.svg)](https://github.com/guanfa-a110/trioffice/actions/workflows/ci.yml)
+
+
 Writer · Sheet · Deck — open a tab and start working. Your data never leaves your machine.
 
 [中文说明](./README.md) · [Architecture](./docs/ARCHITECTURE.md) · [File format](./docs/FORMAT.md) · [Functions](./docs/FUNCTIONS.md) · [Shortcuts](./docs/KEYBINDINGS.md) · [Roadmap](./docs/ROADMAP.md)
@@ -110,7 +113,7 @@ CI is already wired up (`.github/workflows/ci.yml` runs tests and a build on eve
 ```bash
 # Option A — with the gh CLI (recommended)
 brew install gh && gh auth login
-node scripts/set-repo.mjs <your-github-username>
+node scripts/set-repo.mjs guanfa-a110
 npm run publish -- --owner <your-github-username>
 
 # Option B — with a Personal Access Token (repo scope only)
@@ -119,8 +122,8 @@ npm run publish -- --owner <your-github-username>
 GITHUB_TOKEN=<your-token> node scripts/publish.mjs --owner <your-github-username>
 
 # Option C — plain git
-node scripts/set-repo.mjs <your-github-username>
-git remote add origin git@github.com:<your-github-username>/trioffice.git
+node scripts/set-repo.mjs guanfa-a110
+git remote add origin git@github.com:guanfa-a110/trioffice.git
 git push -u origin main
 ```
 

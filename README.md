@@ -6,6 +6,9 @@
 
 **零依赖、纯前端的开源办公三件套**
 
+[![CI](https://github.com/guanfa-a110/trioffice/actions/workflows/ci.yml/badge.svg)](https://github.com/guanfa-a110/trioffice/actions/workflows/ci.yml)
+
+
 文档 · 表格 · 演示 —— 打开浏览器就能用，数据只留在你自己的电脑里。
 
 [English](./README.en.md) · [架构设计](./docs/ARCHITECTURE.md) · [文件格式](./docs/FORMAT.md) · [函数手册](./docs/FUNCTIONS.md) · [快捷键](./docs/KEYBINDINGS.md) · [路线图](./docs/ROADMAP.md)
@@ -205,7 +208,7 @@ node scripts/make-docs.mjs     # 重新生成 docs/FUNCTIONS.md
 ```bash
 # 方式一：装了 gh CLI（推荐）
 brew install gh && gh auth login
-node scripts/set-repo.mjs <你的GitHub用户名>
+node scripts/set-repo.mjs guanfa-a110
 npm run publish -- --owner <你的GitHub用户名>
 
 # 方式二：只有 Personal Access Token（勾选 repo 权限）
@@ -213,8 +216,8 @@ npm run publish -- --owner <你的GitHub用户名>
 GITHUB_TOKEN=<你的token> node scripts/publish.mjs --owner <你的GitHub用户名>
 
 # 方式三：最朴素的手工推送
-node scripts/set-repo.mjs <你的GitHub用户名>
-git remote add origin git@github.com:<你的GitHub用户名>/trioffice.git
+node scripts/set-repo.mjs guanfa-a110
+git remote add origin git@github.com:guanfa-a110/trioffice.git
 git push -u origin main
 ```
 
