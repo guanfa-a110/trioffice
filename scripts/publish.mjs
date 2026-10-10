@@ -251,10 +251,17 @@ async function main() {
 `);
     return;
   }
+  // 没给 --owner 时，用令牌对应的账号（最常见的情况）
   if (!args.owner) {
-    console.error('✖ 缺少 --owner <你的 GitHub 用户名>');
-    console.error('  例如: GITHUB_TOKEN=xxx node scripts/publish.mjs --owner yourname');
-    process.exit(1);
+    const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
+    if (!token) {
+      console.error('✖ 缺少 --owner <你的 GitHub 用户名>');
+      console.error('  例如: GITHUB_TOKEN=xxx node scripts/publish.mjs --owner yourname');
+      process.exit(1);
+    }
+    const me = await createClient(token).request('GET', '/user');
+    args.owner = me.data.login;
+    console.log(`▶ 未指定 --owner，使用令牌对应的账号：${args.owner}`);
   }
 
   const history = await readHistory();
