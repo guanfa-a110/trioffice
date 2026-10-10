@@ -181,17 +181,28 @@ async function publishViaApi(args, history, token) {
   else if (created.status === 422) {
     console.log('  · 仓库已存在，继续推送提交');
     // 仓库是手工建的（描述/主页可能没填）→ 统一覆盖成我们想要的
-    await client.request('PATCH', `/repos/${repoSlug}`, {
+    const patched = await client.request('PATCH', `/repos/${repoSlug}`, {
       description: args.description || DEFAULT_DESCRIPTION,
       homepage: `https://github.com/${repoSlug}`,
       has_issues: true,
       has_wiki: false,
       has_projects: false,
     }, { allowFailure: true });
-    console.log('  ✔ 已更新仓库描述与主页');
+    if (patched.status < 400) console.log('  ✔ 已更新仓库描述与主页');
+    else console.log(`  · 描述/主页未能自动更新（需要 Administration 权限）：挂个 ${patched.status}，可稍后在仓库设置里手动填`);
+  } else if (created.status === 404 && isOrg) {
+    throw new Error(`组织 ${args.owner} 不存在，或令牌没有创建仓库的权限`);
+  } else if (created.status === 403) {
+    throw new Error(
+      '当前令牌无法创建仓库。\n'
+      + '   原因：GitHub 的细粒度令牌（github_pat_…）在个人账号下不提供 repository_creation 权限。\n'
+      + '   解决：二选一 ——\n'
+      + '     A. 先在网页上建一个空的同名仓库（不勾 README），再重跑本脚本；\n'
+      + '     B. 换一个经典令牌（classic token，勾选 repo 权限）后重跑。',
+    );
+  } else if (created.status >= 400) {
+    throw new Error(`创建仓库失败：${created.status} ${JSON.stringify(created.data).slice(0, 200)}`);
   }
-  else if (created.status === 404 && isOrg) throw new Error(`组织 ${args.owner} 不存在，或令牌没有创建仓库的权限`);
-  else if (created.status >= 400) throw new Error(`创建仓库失败：${created.status} ${JSON.stringify(created.data).slice(0, 200)}`);
   else console.log(`  · 创建仓库返回 ${created.status}`);
 
   // 2. 逐个提交重建（保留完整历史与提交信息）
