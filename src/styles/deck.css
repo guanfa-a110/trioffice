@@ -1,0 +1,347 @@
+/* ==========================================================================
+   deck.css —— 演示：缩略图侧栏、画布、选区手柄、放映模式
+   ========================================================================== */
+
+.deck {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  background: var(--surface-2);
+}
+
+/* ---------- 侧栏 ---------- */
+.deck__sidebar {
+  width: 208px;
+  flex: none;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+}
+
+.deck__sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 10px 9px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.deck__list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deck__thumb-wrap {
+  position: relative;
+  border-radius: var(--radius);
+  border: 2px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+.deck__thumb-wrap.is-active {
+  border-color: var(--accent);
+}
+
+.deck__thumb {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: #0b0e14;
+  cursor: pointer;
+  box-shadow: var(--shadow-1);
+}
+
+.deck__thumb-index {
+  position: absolute;
+  left: 6px;
+  bottom: 4px;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+/* ---------- 主区域 ---------- */
+.deck__main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.deck__stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px 14px;
+  overflow: auto;
+  align-items: center;
+}
+
+.deck__canvas {
+  position: relative;
+  flex: none;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+  background: #0b0e14;
+}
+
+.slide {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.slide--canvas {
+  cursor: default;
+}
+
+/* 侧栏缩略图：只做展示，不接收指针事件 */
+.slide--thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.slide__element {
+  position: absolute;
+  pointer-events: auto;
+}
+
+.slide__text {
+  padding: 2px 4px;
+  overflow: hidden;
+}
+
+.slide__text-inner {
+  width: 100%;
+  outline: none;
+}
+
+.slide__text-inner[contenteditable="true"] {
+  cursor: text;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+}
+
+.slide__shape {
+  border-radius: inherit;
+}
+
+.slide__image {
+  overflow: hidden;
+}
+
+.slide__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 1px dashed currentColor;
+  border-radius: inherit;
+  opacity: 0.5;
+  font-size: 13px;
+}
+
+.slide__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  opacity: 0.4;
+}
+
+.deck__selection-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.deck__sel-box {
+  position: absolute;
+  border: 1.5px solid var(--accent);
+}
+
+.deck__handle {
+  position: absolute;
+  width: calc(9px / var(--handle-scale, 1));
+  height: calc(9px / var(--handle-scale, 1));
+  background: #fff;
+  border: 1.5px solid var(--accent);
+  border-radius: 2px;
+  pointer-events: auto;
+}
+
+.deck__handle--nw { left: -5px; top: -5px; cursor: nwse-resize; }
+.deck__handle--n  { left: 50%; top: -5px; margin-left: -4.5px; cursor: ns-resize; }
+.deck__handle--ne { right: -5px; top: -5px; cursor: nesw-resize; }
+.deck__handle--e  { right: -5px; top: 50%; margin-top: -4.5px; cursor: ew-resize; }
+.deck__handle--se { right: -5px; bottom: -5px; cursor: nwse-resize; }
+.deck__handle--s  { left: 50%; bottom: -5px; margin-left: -4.5px; cursor: ns-resize; }
+.deck__handle--sw { left: -5px; bottom: -5px; cursor: nesw-resize; }
+.deck__handle--w  { left: -5px; top: 50%; margin-top: -4.5px; cursor: ew-resize; }
+
+/* ---------- 备注 ---------- */
+.deck__notes {
+  width: min(100%, 760px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+  flex: none;
+}
+
+.deck__notes.is-collapsed {
+  display: none;
+}
+
+.deck__notes-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.deck__notes-input {
+  width: 100%;
+  height: 74px;
+  padding: 9px 12px;
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+}
+
+.deck__status {
+  white-space: nowrap;
+}
+
+/* ---------- 放映 ---------- */
+.deck-present {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #05070b;
+  outline: none;
+  cursor: pointer;
+}
+
+.deck-present__stage {
+  position: relative;
+  overflow: visible;
+}
+
+.slide--present {
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  opacity: 1;
+}
+
+.slide--present.is-fade { opacity: 0; transition: opacity 0.4s ease; }
+.slide--present.is-slide { opacity: 0; transform: translateX(40px); transition: opacity 0.36s ease, transform 0.36s ease; }
+.slide--present.is-zoom { opacity: 0; transform: scale(0.95); transition: opacity 0.34s ease, transform 0.34s ease; }
+.slide--present.is-in { opacity: 1; }
+.slide--present.is-slide.is-in { transform: none; }
+.slide--present.is-zoom.is-in { transform: none; }
+
+.deck-present__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.deck-present__notes {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 22vh;
+  overflow-y: auto;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.62);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 13.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.deck-present__hint {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+}
+
+.deck-present__counter {
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.deck-present__toolbar {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+}
+
+.deck-present__toolbar .btn {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.deck-present__toolbar .btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+@media (max-width: 860px) {
+  .deck__sidebar {
+    width: 148px;
+  }
+  .deck__thumb {
+    width: 120px !important;
+  }
+}

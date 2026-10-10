@@ -1,0 +1,449 @@
+/* ==========================================================================
+   sheet.css —— 表格：公式栏、虚拟网格、工作表标签、图表
+   ========================================================================== */
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  background: var(--surface);
+}
+
+/* ---------- 公式栏 ---------- */
+.sheet__formula {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex: none;
+}
+
+.sheet__name-box {
+  min-width: 88px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  text-align: left;
+}
+
+.sheet__name-box:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.sheet__fx {
+  font-style: italic;
+  font-family: var(--font-mono);
+  color: var(--text-faint);
+  padding-left: 4px;
+  border-left: 1px solid var(--border);
+  padding: 0 6px 0 10px;
+}
+
+.sheet__formula-input {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.sheet__formula-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.sheet__fx-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-faint);
+}
+
+.sheet__fx-info:hover {
+  background: var(--surface-hover);
+  color: var(--accent);
+}
+
+/* ---------- 网格 ---------- */
+.sheet__grid {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+  --sheet-zoom: 1;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  font-variant-numeric: tabular-nums;
+  /* 由 grid.js 在运行时测量并覆盖，用于让覆盖层避开原生滚动条 */
+  --sb-w: 0px;
+  --sb-h: 0px;
+}
+
+.grid__scroll {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  outline: none;
+}
+
+.grid__spacer {
+  width: 1px;
+  height: 1px;
+}
+
+.grid__stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: var(--sb-w, 0px);
+  bottom: var(--sb-h, 0px);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.grid__cells,
+.grid__colhead,
+.grid__rowhead,
+.grid__overlay,
+.grid__charts {
+  position: absolute;
+}
+
+.grid__cells {
+  left: 46px;
+  top: 26px;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.grid__overlay {
+  left: 46px;
+  top: 26px;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.grid__charts {
+  left: 46px;
+  top: 26px;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.grid__colhead {
+  left: 46px;
+  top: 0;
+  right: 0;
+  height: 26px;
+  border-bottom: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  z-index: 4;
+  pointer-events: auto;
+}
+
+.grid__rowhead {
+  left: 0;
+  top: 26px;
+  width: 46px;
+  bottom: 0;
+  border-right: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.grid__corner {
+  left: 0;
+  top: 0;
+  width: 46px;
+  height: 26px;
+  background: var(--surface-2);
+  border-right: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+  z-index: 6;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.grid__corner::after {
+  content: '';
+  position: absolute;
+  right: 4px;
+  bottom: 3px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-bottom: 6px solid var(--border-strong);
+}
+
+.grid__colhead-cell,
+.grid__rowhead-cell {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5px;
+  color: var(--text-dim);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+  user-select: none;
+  overflow: hidden;
+}
+
+.grid__rowhead-cell {
+  left: 0;
+  width: 46px;
+}
+
+.grid__colhead-cell.is-selected,
+.grid__rowhead-cell.is-selected {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.grid__cell {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  cursor: cell;
+  pointer-events: auto;
+}
+
+.grid__cell.is-bold { font-weight: 700; }
+.grid__cell.is-italic { font-style: italic; }
+.grid__cell.is-underline { text-decoration: underline; }
+.grid__cell.is-strike { text-decoration: line-through; }
+.grid__cell.is-merged { border-right: 1px solid var(--border-strong); border-bottom: 1px solid var(--border-strong); }
+.grid__cell.has-border { box-shadow: inset 0 0 0 1px var(--border-strong); }
+.grid__cell.is-error { color: var(--danger); }
+.grid__cell:empty::after { content: ''; }
+
+.grid__selection {
+  position: absolute;
+  border: 2px solid var(--accent);
+  background: rgba(79, 124, 247, 0.07);
+  pointer-events: none;
+}
+
+.grid__active {
+  position: absolute;
+  border: 2px solid var(--accent);
+  pointer-events: none;
+  box-shadow: 0 0 0 1px var(--surface) inset;
+}
+
+.grid__fill-handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--surface);
+  border-radius: 2px;
+  background: var(--accent);
+  cursor: crosshair;
+  pointer-events: auto;
+}
+
+.grid__fill-preview {
+  position: absolute;
+  border: 2px dashed var(--accent);
+  background: rgba(79, 124, 247, 0.06);
+  pointer-events: none;
+}
+
+.grid__ref-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.grid__ref {
+  position: absolute;
+  border: 1.5px solid #e8710a;
+  background: rgba(232, 113, 10, 0.1);
+  border-radius: 2px;
+}
+
+.cell-editor {
+  position: absolute;
+  z-index: 12;
+  min-height: 26px;
+  padding: 3px 6px;
+  border: 2px solid var(--accent);
+  border-radius: 2px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.45;
+  resize: none;
+  overflow: hidden;
+  outline: none;
+  box-shadow: var(--shadow-2);
+  pointer-events: auto;
+}
+
+/* ---------- 图表 ---------- */
+.chart-box {
+  position: absolute;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  pointer-events: auto;
+  cursor: move;
+}
+
+.chart-box__bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 4px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.chart-box:hover .chart-box__bar {
+  opacity: 1;
+}
+
+.chart-box__title {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  padding-right: 6px;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chart-box__resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, var(--border-strong) 50%);
+}
+
+.chart-bar-rect {
+  transition: opacity 0.15s ease;
+}
+
+.chart-bar-rect:hover {
+  opacity: 0.82;
+}
+
+.chart-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: var(--text);
+}
+
+/* ---------- 工作表标签 ---------- */
+.sheet__tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 36px;
+  padding: 0 8px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+  flex: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sheet__tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.sheet__tab {
+  height: 26px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.sheet__tab:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.sheet__tab.is-active {
+  background: var(--surface);
+  color: var(--accent);
+  border-color: var(--border);
+  font-weight: 600;
+  box-shadow: var(--shadow-1);
+}
+
+.sheet__tabs-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  position: sticky;
+  right: 0;
+  background: var(--surface-2);
+  padding-left: 6px;
+}
+
+.sheet__summary {
+  display: flex;
+  gap: 18px;
+}
+
+.sheet__summary-item {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

@@ -1,0 +1,313 @@
+/* ==========================================================================
+   writer.css —— 文档编辑器
+   ========================================================================== */
+
+.writer {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  background: var(--surface-2);
+}
+
+/* ---------- 大纲 ---------- */
+.writer__outline {
+  width: 232px;
+  flex: none;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.writer__outline.is-collapsed {
+  width: 0;
+  border-right: 0;
+}
+
+.writer__outline-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.writer__outline-count {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+
+.writer__outline-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.writer__outline-item {
+  display: block;
+  width: 100%;
+  padding: 6px 9px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 13px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.writer__outline-item:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.writer__outline-item.is-h1 { font-weight: 600; color: var(--text); padding-left: 9px; }
+.writer__outline-item.is-h2 { padding-left: 20px; }
+.writer__outline-item.is-h3 { padding-left: 32px; font-size: 12.5px; }
+
+.writer__outline-empty {
+  padding: 14px 10px;
+  font-size: 12.5px;
+  color: var(--text-faint);
+  line-height: 1.6;
+}
+
+/* ---------- 主区域 ---------- */
+.writer__main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 26px 24px 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.writer__stage {
+  --writer-zoom: 1;
+  width: min(100%, 820px);
+}
+
+.writer__paper {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+  padding: 58px 62px;
+  min-height: 1000px;
+  outline: none;
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: var(--text);
+  transform: scale(var(--writer-zoom));
+  transform-origin: top center;
+  transition: transform 0.12s ease;
+}
+
+.writer__paper[data-size="letter"] {
+  width: 100%;
+}
+
+.writer__paper:empty::before,
+.writer__paper:has(> p:only-child:empty)::before {
+  content: attr(data-placeholder);
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+.writer__paper:focus-visible {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  box-shadow: var(--shadow-2), 0 0 0 3px var(--accent-soft);
+}
+
+/* 内容排版 */
+.writer__paper h1 {
+  font-size: 1.85em;
+  margin: 0.2em 0 0.6em;
+  line-height: 1.3;
+}
+
+.writer__paper h2 {
+  font-size: 1.42em;
+  margin: 1.4em 0 0.5em;
+  padding-bottom: 0.24em;
+  border-bottom: 1px solid var(--border);
+}
+
+.writer__paper h3 {
+  font-size: 1.18em;
+  margin: 1.2em 0 0.4em;
+}
+
+.writer__paper p {
+  margin: 0.72em 0;
+}
+
+.writer__paper ul,
+.writer__paper ol {
+  margin: 0.72em 0;
+  padding-left: 1.6em;
+}
+
+.writer__paper li {
+  margin: 0.28em 0;
+}
+
+.writer__paper blockquote {
+  margin: 1em 0;
+  padding: 0.6em 1.1em;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.writer__paper pre {
+  margin: 1em 0;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.writer__paper code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.12em 0.4em;
+  border-radius: 5px;
+  background: var(--surface-3);
+}
+
+.writer__paper pre code {
+  background: none;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.writer__paper a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.writer__paper img {
+  max-width: 100%;
+  border-radius: var(--radius);
+  margin: 0.6em 0;
+}
+
+.writer__paper hr {
+  margin: 1.8em 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.writer__paper table {
+  width: 100%;
+  margin: 1em 0;
+  border-collapse: collapse;
+  font-size: 0.94em;
+}
+
+.writer__paper th,
+.writer__paper td {
+  border: 1px solid var(--border);
+  padding: 7px 10px;
+  vertical-align: top;
+}
+
+.writer__paper th {
+  background: var(--surface-2);
+  font-weight: 600;
+}
+
+.writer__paper mark {
+  background: #fff3bf;
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 3px;
+}
+
+.writer__paper ul.task-list {
+  list-style: none;
+  padding-left: 0.4em;
+}
+
+.writer__paper li.task {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.writer__paper li.task input[type="checkbox"] {
+  margin-top: 0.42em;
+  accent-color: var(--accent);
+}
+
+.writer__paper li.task[data-checked="true"] {
+  color: var(--text-dim);
+  text-decoration: line-through;
+  text-decoration-color: var(--border-strong);
+}
+
+/* 字号（execCommand fontSize 生成 font[size]） */
+.writer__paper font[size="1"] { font-size: 11px; }
+.writer__paper font[size="2"] { font-size: 13px; }
+.writer__paper font[size="3"] { font-size: 15px; }
+.writer__paper font[size="4"] { font-size: 17px; }
+.writer__paper font[size="5"] { font-size: 20px; }
+.writer__paper font[size="6"] { font-size: 24px; }
+.writer__paper font[size="7"] { font-size: 30px; }
+
+.writer__footer {
+  display: none;
+}
+
+.writer__zoom {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  padding-left: 6px;
+}
+
+.writer__stat {
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .writer__outline {
+    display: none;
+  }
+  .writer__paper {
+    padding: 30px 24px;
+  }
+}
+
+@media print {
+  .writer__outline,
+  .writer__main {
+    overflow: visible;
+  }
+  .writer__paper {
+    box-shadow: none;
+    border: 0;
+    transform: none;
+  }
+}
