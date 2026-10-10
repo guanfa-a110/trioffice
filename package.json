@@ -1,0 +1,48 @@
+{
+  "name": "trioffice",
+  "version": "0.1.0",
+  "description": "TriOffice — 零依赖、纯前端的开源办公三件套（文档 / 表格 / 演示）。TriOffice is a dependency-free, browser-native open-source alternative to the classic office trio: Writer, Sheet and Deck.",
+  "type": "module",
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "office",
+    "docs",
+    "spreadsheet",
+    "slides",
+    "wysiwyg",
+    "vanilla-js",
+    "zero-dependency",
+    "办公",
+    "三件套"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test \"tests/**/*.test.mjs\"",
+    "test:watch": "node --test --watch \"tests/**/*.test.mjs\"",
+    "build": "node scripts/build.mjs",
+    "docs": "node scripts/make-docs.mjs",
+    "examples": "node scripts/make-examples.mjs",
+    "set-repo": "node scripts/set-repo.mjs"
+  },
+  "files": [
+    "index.html",
+    "src",
+    "assets",
+    "scripts",
+    "docs",
+    "examples"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OWNER/trioffice.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OWNER/trioffice/issues"
+  },
+  "homepage": "https://github.com/OWNER/trioffice#readme"
+}
