@@ -108,11 +108,24 @@ TriOffice aims to be **small enough to read, good enough to use**.
 CI is already wired up (`.github/workflows/ci.yml` runs tests and a build on every push/PR).
 
 ```bash
-node scripts/set-repo.mjs <your-github-username>   # replaces the OWNER placeholder and adds a CI badge
-git add -A && git commit -m "chore: initial commit"
+# Option A — with the gh CLI (recommended)
+brew install gh && gh auth login
+node scripts/set-repo.mjs <your-github-username>
+npm run publish -- --owner <your-github-username>
+
+# Option B — with a Personal Access Token (repo scope only)
+# Works even behind a network that only allows api.github.com: the script rebuilds
+# the commit history through the REST API.
+GITHUB_TOKEN=<your-token> node scripts/publish.mjs --owner <your-github-username>
+
+# Option C — plain git
+node scripts/set-repo.mjs <your-github-username>
 git remote add origin git@github.com:<your-github-username>/trioffice.git
 git push -u origin main
 ```
+
+`scripts/publish.mjs` creates the repository, uploads every commit (preserving history and messages),
+then creates `main` and sets topics. Add `--dry-run` to preview without touching the network.
 
 ## Contributing
 

@@ -203,11 +203,23 @@ node scripts/make-docs.mjs     # 重新生成 docs/FUNCTIONS.md
 仓库里已经写好 CI（`.github/workflows/ci.yml`，push / PR 时自动跑测试与构建）。
 
 ```bash
-node scripts/set-repo.mjs <你的GitHub用户名>   # 一键把 OWNER 占位符换成你的账号，并加上 CI 徽章
-git add -A && git commit -m "chore: 初始化仓库"
+# 方式一：装了 gh CLI（推荐）
+brew install gh && gh auth login
+node scripts/set-repo.mjs <你的GitHub用户名>
+npm run publish -- --owner <你的GitHub用户名>
+
+# 方式二：只有 Personal Access Token（勾选 repo 权限）
+# 网络受限、甚至只放行 api.github.com 时也能用（脚本走 REST API 重建提交历史）
+GITHUB_TOKEN=<你的token> node scripts/publish.mjs --owner <你的GitHub用户名>
+
+# 方式三：最朴素的手工推送
+node scripts/set-repo.mjs <你的GitHub用户名>
 git remote add origin git@github.com:<你的GitHub用户名>/trioffice.git
 git push -u origin main
 ```
+
+`scripts/publish.mjs` 会自动创建仓库、逐个提交上传（保留完整历史与提交信息）、建立 `main` 分支并设置主题标签。
+先用 `npm run publish -- --owner <账号> --dry-run` 可以只看它打算上传什么，不联网。
 
 ## 许可
 

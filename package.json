@@ -27,7 +27,8 @@
     "build": "node scripts/build.mjs",
     "docs": "node scripts/make-docs.mjs",
     "examples": "node scripts/make-examples.mjs",
-    "set-repo": "node scripts/set-repo.mjs"
+    "set-repo": "node scripts/set-repo.mjs",
+    "publish": "node scripts/publish.mjs"
   },
   "files": [
     "index.html",
